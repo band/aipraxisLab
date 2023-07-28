@@ -1,0 +1,39 @@
+# auth
+env.sh
+stenv.sh
+.env
+
+# macOS
+*.DS_Store
+.DS_Store
+
+# Emacs
+*~
+\#*\#
+
+# Python
+.env
+venv/
+__pycache__/
+
+# LLMs
+.storage/
+# Models
+model
+model/
+models/
+# Local Chroma db
+.chroma/
+db/
+
+# development
+*.o
+*.so
+*.log
+*.json
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# 2023-06 experiments
+*.txt
