@@ -7,7 +7,8 @@ A step-by-step guide to building a chatbot based on your own documents with GPT
 """
 
 # Import necessary packages
-from llama_index import GPTSimpleVectorIndex, Document, SimpleDirectoryReader
+from llama_index import SimpleDirectoryReader
+from llama_index import GPTVectorStoreIndex
 from llama_index import download_loader
 import os
 
@@ -24,7 +25,7 @@ def main():
     print(f"args: {args}")
     
     wiki_dir = str(args.wiki)
-    print(dir_wiki)
+    print(wiki_dir)
 
     # Loading from a directory
 #    documents = SimpleDirectoryReader(wiki_dir).load_data()
@@ -33,15 +34,18 @@ def main():
     documents = ObsidianReader(wiki_dir).load_data() # Returns list of documents
 
     # Construct a simple vector index
-    index = GPTSimpleVectorIndex(documents)
+    index = GPTVectorStoreIndex(documents)
 
     # Save your index to a index.json file
-    index.save_to_disk('index.json')
+#    index.save_to_disk('index.json')
     # Load the index from your saved index.json file
-    index = GPTSimpleVectorIndex.load_from_disk('index.json')
+#    index = GPTVectorStoreIndex.load_from_disk('index.json')
 
     # Querying the index
-    response = index.query("What are the primary concepts in the wiki pages?")
+    query_engine = index.as_query_engine(
+        response_mode="compact")
+    
+    response = query_engine.query("What are the primary concepts in the wiki pages?")
     print(response)
 
 if __name__ == "__main__":
