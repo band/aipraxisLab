@@ -34,7 +34,7 @@ def init_argparse():
     parser.add_argument('--prompt', '-p', required=False, help='custom prompt text')
     return parser
 
-def open_file(filepath):
+def read_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as infile:
         return infile.read()
 
@@ -82,13 +82,14 @@ if __name__ == '__main__':
     if args.model:
         model_name = str(args.model)
 
-    alltext = open_file(file_name)
+    prompt_text = ("Summarize the content chunk. Content: ```{chunk}```")
+    if args.prompt:
+        prompt_text = read_file(args.prompt)
+
+    alltext = read_file(file_name)
     chunks = textwrap.wrap(alltext, 2048)
     result = list()
     for count, chunk in enumerate(chunks, 1):
-        prompt_text = ("Summarize the content chunk. Content: ```{chunk}```")
-        if args.prompt:
-            prompt_text = open_file(args.prompt)
         prompt = prompt_text.replace('{chunk}', chunk).encode(encoding='ASCII',errors='ignore').decode()
         summary = gpt_chat_completion(prompt, engine=model_name)
         print('\n\n\n', count, 'of', len(chunks), ' - ', summary)
