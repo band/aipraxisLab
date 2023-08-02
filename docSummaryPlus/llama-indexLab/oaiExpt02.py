@@ -39,7 +39,7 @@ def main():
         model_name = str(args.model)
 
     from llama_index.llms import OpenAI
-    llm = OpenAI(model=model_name)
+    llm = OpenAI(model=model_name, temperature=0.0)
     
     # set service context
     service_context = ServiceContext.from_defaults(llm=llm)
