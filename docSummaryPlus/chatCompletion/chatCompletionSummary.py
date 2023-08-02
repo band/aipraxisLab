@@ -31,6 +31,7 @@ def init_argparse():
     parser = argparse.ArgumentParser(description='Use OpenAI gpt ChatCompletion to summarize specified document file')
     parser.add_argument('--file', '-f', required=True, help='file')
     parser.add_argument('--model', '-m', required=False, help='LLM model name')
+    parser.add_argument('--prompt', '-p', required=False, help='custom prompt text')
     return parser
 
 def open_file(filepath):
@@ -80,13 +81,15 @@ if __name__ == '__main__':
     model_name = 'gpt-3.5-turbo'
     if args.model:
         model_name = str(args.model)
-        
+
     alltext = open_file(file_name)
     chunks = textwrap.wrap(alltext, 2048)
     result = list()
     for count, chunk in enumerate(chunks, 1):
-        prompt_text = open_file('prompt02.txt').replace('{chunk}', chunk)
-        prompt = prompt_text.encode(encoding='ASCII',errors='ignore').decode()
+        prompt_text = ("Summarize the content chunk. Content: ```{chunk}```")
+        if args.prompt:
+            prompt_text = open_file(args.prompt)
+        prompt = prompt_text.replace('{chunk}', chunk).encode(encoding='ASCII',errors='ignore').decode()
         summary = gpt_chat_completion(prompt, engine=model_name)
         print('\n\n\n', count, 'of', len(chunks), ' - ', summary)
         result.append(summary)
