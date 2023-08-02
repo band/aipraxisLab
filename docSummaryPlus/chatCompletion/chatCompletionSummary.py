@@ -82,11 +82,9 @@ if __name__ == '__main__':
         model_name = str(args.model)
         
     alltext = open_file(file_name)
-    chunks = textwrap.wrap(alltext, 1000)
+    chunks = textwrap.wrap(alltext, 2048)
     result = list()
-    count = 0
-    for chunk in chunks:
-        count = count + 1
+    for count, chunk in enumerate(chunks, 1):
         prompt_text = open_file('prompt02.txt').replace('{chunk}', chunk)
         prompt = prompt_text.encode(encoding='ASCII',errors='ignore').decode()
         summary = gpt_chat_completion(prompt, engine=model_name)
