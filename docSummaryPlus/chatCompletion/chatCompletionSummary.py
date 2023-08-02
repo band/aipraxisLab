@@ -30,6 +30,7 @@ import argparse
 def init_argparse():
     parser = argparse.ArgumentParser(description='Use OpenAI gpt ChatCompletion to summarize specified document file')
     parser.add_argument('--file', '-f', required=True, help='file')
+    parser.add_argument('--model', '-m', required=False, help='LLM model name')
     return parser
 
 def open_file(filepath):
@@ -63,7 +64,7 @@ def gpt_chat_completion(prompt, engine='gpt-4', temp=0.0, tokens=1800, top_p=0.1
         except Exception as oops:
             retry += 1
             if retry >= max_retry:
-                return "GPT3.5 error: %s" % oops
+                return f"{engine} error: %s" % oops
             print('Error communucating with OpenAI:', oops)
             sleep(1)
 
@@ -71,20 +72,24 @@ def gpt_chat_completion(prompt, engine='gpt-4', temp=0.0, tokens=1800, top_p=0.1
 if __name__ == '__main__':
     argparser = init_argparse();
     args = argparser.parse_args();
-    logging.debug(f"args: {args}")
+    logging.info(f"args: {args}")
     
     file_name = str(args.file)
-    logging.info("document file : %s", file_name)
+    logging.debug("document file : %s", file_name)
 
+    model_name = 'gpt-3.5-turbo'
+    if args.model:
+        model_name = str(args.model)
+        
     alltext = open_file(file_name)
     chunks = textwrap.wrap(alltext, 1000)
     result = list()
     count = 0
     for chunk in chunks:
         count = count + 1
-        prompt = open_file('prompt02.txt').replace('{chunk}', chunk)
-        prompt = prompt.encode(encoding='ASCII',errors='ignore').decode()
-        summary = gpt_chat_completion(prompt)
+        prompt_text = open_file('prompt02.txt').replace('{chunk}', chunk)
+        prompt = prompt_text.encode(encoding='ASCII',errors='ignore').decode()
+        summary = gpt_chat_completion(prompt, engine=model_name)
         print('\n\n\n', count, 'of', len(chunks), ' - ', summary)
         result.append(summary)
     save_file('\n\n'.join(result), 'output_%s.txt' % time())
