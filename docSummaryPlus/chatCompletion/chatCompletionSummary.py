@@ -87,7 +87,7 @@ if __name__ == '__main__':
         prompt_text = read_file(args.prompt)
 
     alltext = read_file(file_name)
-    chunks = textwrap.wrap(alltext, 2048)
+    chunks = textwrap.wrap(alltext, 4096)
     result = list()
     for count, chunk in enumerate(chunks, 1):
         prompt = prompt_text.replace('{chunk}', chunk).encode(encoding='ASCII',errors='ignore').decode()
