@@ -2,7 +2,7 @@
 ## Practical action with AI and LLMs
 
 - A repository to hold explorations and experiments with using AI and
-LLMs.
+LLMs. And to collect some observations and reflections on AI practice and experience.
 
 - We try to keep the labs and benches clean, but there is always a chance that unfinished work is left lying around.  Also, there is no guarantee that what is here today will be here tomorrow.
 
