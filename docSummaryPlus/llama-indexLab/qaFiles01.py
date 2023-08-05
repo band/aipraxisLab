@@ -8,10 +8,10 @@ A step-by-step guide to building a chatbot based on your own documents with GPT
 """
 
 # Import the needed modules and items
-from llama_index import GPTSimpleVectorIndex, Document
+from llama_index import VectorStoreIndex
 from llama_index import download_loader
-UnstructuredReader = download_loader('UnstructuredReader')
 SimpleDirectoryReader = download_loader('SimpleDirectoryReader')
+UnstructuredReader = download_loader('UnstructuredReader')
 
 import os
 
@@ -22,14 +22,12 @@ def init_argparse():
     parser.add_argument('--directory', '-d', required=True, help='directory containing files (Markdown + other)')
     return parser
 
-os.environ['OPENAI_API_KEY'] = ''
-
 def main():
     argparser = init_argparse();
     args = argparser.parse_args();
     print(f"args: {args}")
     
-    wiki_dir = str(args.directory)
+    dir_name = str(args.directory)
     print(dir_name)
 
     # check API Key is set
@@ -39,21 +37,24 @@ def main():
 
     # Load documents from a directory
 
-    loader = SimpleDirectoryReader(wiki_name, file_extractor={
+    loader = SimpleDirectoryReader(dir_name, file_extractor={
         ".html": "UnstructuredReader",
         ".eml": "UnstructuredReader"})
     documents = loader.load_data() # returns list of documents
 
     # Construct a simple vector index
-    index = GPTSimpleVectorIndex(documents)
+    index = VectorStoreIndex(documents)
 
     # Save your index to a index.json file
-    index.save_to_disk('index.json')
+#    index.save_to_disk('index.json')
     # Load the index from your saved index.json file
-    index = GPTSimpleVectorIndex.load_from_disk('index.json')
+#    index = VectorStoreIndex.load_from_disk('index.json')
 
     # Querying the index
-    response = index.query("What are the primary concepts in the wiki pages?")
+    query_engine = index.as_query_engine(
+        response_mode="compact")
+    
+    response = query_engine.query("What are the primary concepts in the documents?")
     print(response)
 
 if __name__ == "__main__":
