@@ -14,24 +14,12 @@ import argparse
 def init_argparse():
     parser = argparse.ArgumentParser(description='Generate sentence topics from a text document.')
     parser.add_argument('--file', '-f', required=True, help='text file to be analyzed')
+    parser.add_argument('--topics', '-t', required=True, help='topics to identify in document; one per line')
     return parser
 
 def read_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as infile:
         return infile.read()
-
-# TODO: read document text from text file
-
-# Define the document text
-"""
-document_text =
-In recent years, renewable energy sources such as solar and wind power have gained popularity as environmentally friendly alternatives to fossil fuels. Solar power is harnessed from the sun's energy, and it has become a cost-effective way to generate electricity. Wind power, on the other hand, relies on the kinetic energy of the wind to turn turbines and produce electricity. Fossil fuels, such as coal and oil, have been the dominant source of energy for decades, but they are known for their negative impact on the environment. Environmental sustainability is a growing concern, and the shift toward renewable energy sources is a step in the right direction.
-"""
-# build topics list
-# TODO: read topic list from text file
-# List of topics to identify in the document
-# topics = ["Renewable Energy", "Solar Power", "Wind Power", "Fossil Fuels", "Environmental Sustainability"]
-
 
 import spacy
 # Load the spaCy model
@@ -48,11 +36,9 @@ def main():
     # Process the document with spaCy
     doc = nlp(document_text)
 
-    # Open the file for reading
-    with open("elements.txt", "r") as file:
-        # Initialize an empty list to store the quoted elements
+    # construct topic list from topic file
+    with open(str(args.topics), "r") as file:
         topics = []
-    # Loop through each line in the file
         for line in file:
             topics.append(f"{line.strip()}")
 
