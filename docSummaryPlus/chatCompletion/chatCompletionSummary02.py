@@ -18,9 +18,9 @@ A concatenation of the individual text summaries is saved in the file 'output.tx
 import openai
 import os
 import re
+import textwrap
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-#import textwrap
 
 from time import time, sleep
 
@@ -83,7 +83,7 @@ if __name__ == '__main__':
     file_name = str(args.file)
     logging.debug("document file : %s", file_name)
 
-    model_name = 'gpt-3.5-turbo'
+    model_name = 'gpt-3.5-turbo-16k'
     if args.model:
         model_name = str(args.model)
 
@@ -92,7 +92,7 @@ if __name__ == '__main__':
         prompt_text = read_file(args.prompt)
 
     alltext = read_file(file_name)
-    chunks = textwrap.wrap(alltext, 4096)
+    chunks = textwrap.wrap(alltext, 8192)
     result = list()
     for count, chunk in enumerate(chunks, 1):
         prompt = prompt_text.replace('{chunk}', chunk).encode(encoding='ASCII',errors='ignore').decode()
