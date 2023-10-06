@@ -38,3 +38,4 @@ db/
 # 2023-06 experiments
 *.txt
 workbench/
+*logs/
