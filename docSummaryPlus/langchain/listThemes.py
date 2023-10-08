@@ -1,5 +1,5 @@
 """
-2023-10-06: bare bones minimum
+2023-10-07: list themes; limited by token size of input text
 """
 # Define prompt
 from langchain.prompts import PromptTemplate
@@ -10,7 +10,7 @@ prompt = PromptTemplate.from_template(prompt_template)
 
 # Define LLM chain
 from langchain.chat_models import ChatOpenAI
-llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo-16k")
+llm = ChatOpenAI(temperature=0.0, model_name="gpt-3.5-turbo-16k")
 from langchain.chains import LLMChain
 llm_chain = LLMChain(llm=llm, prompt=prompt)
 
