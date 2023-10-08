@@ -28,11 +28,12 @@ LLMs. And to collect some observations and reflections on AI practice and experi
 ## docSummaryPlus
 
 - The lab bench for experiments and explorations into document
-  summarization and Q&A
+  summarization and Q&A  
+- cf. `Laboratory Project Notebook.md` for work notes  
 
 ## workbench  
 
-- assorted code fragments and experiment materials
+- assorted code fragments and experiment materials  
 
 ## License
 
