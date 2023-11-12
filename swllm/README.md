@@ -10,7 +10,7 @@
 (venv) $ pip install --upgrade llm
 (venv) $ llm install llm-sentence-transformers
 (venv) $ llm sentence-transformers register all-MiniLM-L6-v2
-(venv) $ llm embed-multi readmes \\n--model sentence-transformers/all-MiniLM-L6-v2 \\n--files ~/Documents/Github/ '**/README.md'
+(venv) $ llm embed-multi readmes --model sentence-transformers/all-MiniLM-L6-v2 --files ~/Documents/Github/ '**/README.md'
 (venv) $ llm similar readmes -c sqlite |jq .id
 ```
 
