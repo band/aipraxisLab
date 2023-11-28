@@ -53,7 +53,7 @@ def main():
     logging.debug("document file : %s", file_name)
 
     text = read_file(file_name)
-    prompt = f"{HUMAN_PROMPT} list key themes in this text: {text}{AI_PROMPT}"
+    prompt = f"{HUMAN_PROMPT} list key themes in this text and extract an illustrative quote for each theme: {text}{AI_PROMPT}"
 
 #    if args.prompt:
 #        prompt_text = read_file(args.prompt)
