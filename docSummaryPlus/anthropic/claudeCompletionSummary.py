@@ -39,7 +39,7 @@ def read_file(filepath):
 
 def show_claude_completion(prompt):
     try:
-        completion = anthropic.completions.create(model="claude-2",max_tokens_to_sample=32000,prompt=prompt)
+        completion = anthropic.completions.create(model="claude-2.1",max_tokens_to_sample=32000,prompt=prompt)
         print(completion.completion)
     except Exception as err:
         print('Error communicating with Anthropic:', err)
